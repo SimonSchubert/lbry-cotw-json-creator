@@ -32,8 +32,10 @@ for line in channelsFile.readlines():
         exit()
 
     for item in response["result"]["items"]:
-        title = item["value"].get("title", "")
         name = item.get("name", "")[1:]
+        title = item["value"].get("title", "")
+        if(title == ""):
+            title = name
         thumbnailUrl = item["value"]["thumbnail"]["url"]
         tags = item["value"].get("tags", [])
         channel = {'week': week, 'name':name, 'claimId':claimId, 'title':title, 'thumbnailUrl':thumbnailUrl, 'tags':tags}

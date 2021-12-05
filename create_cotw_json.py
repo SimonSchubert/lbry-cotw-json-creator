@@ -13,10 +13,10 @@ print("#####################")
 print()
 
 
-def get_info_by_claim_id(claimid):
+def get_info_by_claim_id(claim_id):
     try:
         response = requests.post("http://localhost:5279",
-                                 json={"method": "claim_search", "params": {"claim_id": claimid.strip()}}).json()
+                                 json={"method": "claim_search", "params": {"claim_id": claim_id.strip()}}).json()
     except:
         print("Error: connection to http://localhost:5279")
         print("Is LBRY running? https://lbry.tech/api/sdk")
@@ -34,8 +34,8 @@ def get_info_by_claim_id(claimid):
 
 
 try:
-    channelsFile = open("channels.txt", "r")
-    nominationsFile = open("nominations.txt", "r")
+    channels_file = open("channels.txt", "r")
+    nominations_file = open("nominations.txt", "r")
 except:
     print("Error: channels.txt not found")
     print("Copy channels.txt into same directory as the python script and run the script again.")
@@ -44,7 +44,7 @@ except:
 channels = []
 
 week = 1
-for line in channelsFile.readlines():
+for line in channels_file.readlines():
     claimId = line.split(",")[0]
     print("Fetch info for COTW " + str(week) + ": " + claimId)
     info = get_info_by_claim_id(claimId)
@@ -52,7 +52,7 @@ for line in channelsFile.readlines():
         channels.append(info)
     week = week + 1
 
-channelsFile.close()
+channels_file.close()
 
 print("Export all.json")
 
@@ -68,14 +68,14 @@ f.close()
 
 channels = []
 
-for line in nominationsFile.readlines():
+for line in nominations_file.readlines():
     claimId = line.split(",")[0]
     print("Fetch info for nomination: " + claimId)
     info = get_info_by_claim_id(claimId)
     if info is not None:
         channels.append(info)
 
-nominationsFile.close()
+nominations_file.close()
 
 print("Export nominations.json")
 

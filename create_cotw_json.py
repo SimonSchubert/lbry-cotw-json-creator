@@ -38,10 +38,11 @@ with open('channels.txt') as channels_file:
 
     for week, line in enumerate(channels_file.readlines()):
         claimId = line.split(",")[0]
-        print("Fetch info for COTW " + str(week+1) + ": " + claimId)
-        info = get_info_by_claim_id(claimId, (week+1))
-        if info is not None:
-            channels.append(info)
+        if claimId != "":
+            print("Fetch info for COTW " + str(week+1) + ": " + claimId)
+            info = get_info_by_claim_id(claimId, (week+1))
+            if info is not None:
+                channels.append(info)
 
     print("Export all.json")
     with open('all.json', 'w') as f:
